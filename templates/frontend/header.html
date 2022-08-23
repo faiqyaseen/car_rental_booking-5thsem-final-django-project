@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CRB - Car Rental Booking</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <link async preloader href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="/static/main/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main/css/animate.css">
+
+    <link rel="stylesheet" href="/static/main/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/main/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/static/main/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="/static/main/css/aos.css">
+
+    <link rel="stylesheet" href="/static/main/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="/static/main/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/static/main/css/jquery.timepicker.css">
+
+
+    <link rel="stylesheet" href="/static/main/css/flaticon.css">
+    <link rel="stylesheet" href="/static/main/css/icomoon.css">
+    <link rel="stylesheet" href="/static/main/css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">Car<span>Book</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item {% if request.path == '/' %} active {% endif %}"><a href="/"
+                            class="nav-link">Home</a></li>
+                    <li class="nav-item {% if request.path == '/about/' %} active {% endif %}"><a href="/about"
+                            class="nav-link">About</a></li>
+                    <li class="nav-item {% if request.path == '/vehicles/' %} active {% endif %}"><a href="/vehicles"
+                            class="nav-link">Vehicles</a></li>
+                    <li class="nav-item {% if request.path == '/services/' %} active {% endif %}"><a href="/services"
+                            class="nav-link">Services</a></li>
+                    <li class="nav-item {% if request.path == '/contact/' %} active {% endif %}"><a href="/contact"
+                            class="nav-link">Contact</a></li>
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav me-2">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Welcome {{ request.user }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <button type="button" onclick="showSignUp()" class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">Signup</button>
+                    <button type="button" onclick="showLogin()" class="btn btn-sm btn-outline-success me-2" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Login</button>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    <!-- END nav -->
+    <div class="modal fade" id="signupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">SignUp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup/" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" id="last_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" name="username" id="username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="confirm_password">Confirm Password</label>
+                                    <input type="password" class="form-control" name="confirm_password"
+                                        id="confirm_password">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Login Modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="login_username">Email</label>
+                                    <input type="text" class="form-control" name="username" id="login_username">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="login_password">Password</label>
+                                    <input type="password" class="form-control" name="password" id="login_password">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
